@@ -1,0 +1,14 @@
+13
+Dallas|LosAngeles|T
+Dallas|LosAngeles|C
+Dallas|Miami|T
+Dallas|Miami|C
+Dallas|Seattle|T
+Dallas|Seattle|C
+Chicago|LosAngeles|T
+Chicago|LosAngeles|C
+Phoenix|Seattle|T
+SanFrancisco|Phoenix|C
+Seattle|Miami|T
+Charlotte|LosAngeles|C
+Anchorage|NewYork|T
