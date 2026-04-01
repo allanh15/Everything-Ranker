@@ -39,8 +39,19 @@ public class DBManager {
     }
     
     public User getUser(String userName){
-        
-
-        return new User(null,null,null,null);
+        try{
+            stmt = c.createStatement();
+            //ResultSet rs = stmt.executeQuery("SELECT * FROM USERS WHERE USERNAME LIKE '" + userName + "%';");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM USERS WHERE USERNAME = '" + userName + "';");
+            String id = rs.getString("ID");
+            String retUserName = rs.getString("USERNAME");
+            String password = rs.getString("PASSWORD");
+            String email = rs.getString("EMAIL");
+            rs.close();
+            return new User(id,retUserName,password,email);
+        }catch(Exception e){
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            return null;
+        }
     }
 }
