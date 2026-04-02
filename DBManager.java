@@ -37,6 +37,11 @@ public class DBManager {
         }
         return 1;
     }
+    public boolean userExists(String userName){
+        if(getUser(userName) != null){
+            return true;
+        }else return false;
+    }
     
     public User getUser(String userName){
         try{
