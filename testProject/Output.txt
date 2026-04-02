@@ -1,0 +1,62 @@
+Flight 1: Dallas to LosAngeles (Time)
+Path 1: Dallas -> LosAngeles. Time: 205 Cost: 409.00
+Path 2: Dallas -> Denver -> LosAngeles. Time: 320 Cost: 596.00
+Path 3: Dallas -> Denver -> LosAngeles. Time: 336 Cost: 601.00
+
+Flight 2: Dallas to LosAngeles (Cost)
+Path 1: Dallas -> Austin -> LosAngeles. Time: 385 Cost: 369.00
+Path 2: Dallas -> LosAngeles. Time: 205 Cost: 409.00
+Path 3: Dallas -> Austin -> LosAngeles. Time: 469 Cost: 463.00
+
+Flight 3: Dallas to Miami (Time)
+Path 1: Dallas -> Miami. Time: 165 Cost: 526.00
+Path 2: Dallas -> NewOrleans -> Miami. Time: 343 Cost: 602.00
+Path 3: Dallas -> Chicago -> Miami. Time: 344 Cost: 542.00
+
+Flight 4: Dallas to Miami (Cost)
+Path 1: Dallas -> Miami. Time: 165 Cost: 526.00
+Path 2: Dallas -> Chicago -> Miami. Time: 344 Cost: 542.00
+Path 3: Dallas -> Orlando -> Miami. Time: 532 Cost: 544.00
+
+Flight 5: Dallas to Seattle (Time)
+Path 1: Dallas -> Seattle. Time: 270 Cost: 398.00
+Path 2: Dallas -> SanFrancisco -> Seattle. Time: 347 Cost: 580.00
+Path 3: Dallas -> Chicago -> Seattle. Time: 431 Cost: 900.00
+
+Flight 6: Dallas to Seattle (Cost)
+Path 1: Dallas -> Seattle. Time: 270 Cost: 398.00
+Path 2: Dallas -> SanFrancisco -> Seattle. Time: 347 Cost: 580.00
+Path 3: Dallas -> Phoenix -> Seattle. Time: 551 Cost: 619.00
+
+Flight 7: Chicago to LosAngeles (Time)
+Path 1: Chicago -> Dallas -> LosAngeles. Time: 349 Cost: 728.00
+Path 2: Chicago -> Austin -> LosAngeles. Time: 402 Cost: 496.00
+Path 3: Chicago -> Fayetteville -> Dallas -> LosAngeles. Time: 454 Cost: 900.00
+
+Flight 8: Chicago to LosAngeles (Cost)
+Path 1: Chicago -> Austin -> LosAngeles. Time: 402 Cost: 496.00
+Path 2: Chicago -> Charlotte -> Austin -> LosAngeles. Time: 624 Cost: 681.00
+Path 3: Chicago -> Dallas -> Austin -> LosAngeles. Time: 529 Cost: 688.00
+
+Flight 9: Phoenix to Seattle (Time)
+Path 1: Phoenix -> Seattle. Time: 274 Cost: 277.00
+Path 2: Phoenix -> LosAngeles -> SanFrancisco -> Seattle. Time: 436 Cost: 811.00
+Path 3: Phoenix -> LosAngeles -> SanFrancisco -> Seattle. Time: 522 Cost: 704.00
+
+Flight 10: SanFrancisco to Phoenix (Cost)
+Path 1: SanFrancisco -> Phoenix. Time: 612 Cost: 292.00
+Path 2: SanFrancisco -> LosAngeles -> Phoenix. Time: 384 Cost: 395.00
+Path 3: SanFrancisco -> LosAngeles -> Phoenix. Time: 298 Cost: 502.00
+
+Flight 11: Seattle to Miami (Time)
+Path 1: Seattle -> Dallas -> Miami. Time: 435 Cost: 924.00
+Path 2: Seattle -> Chicago -> Miami. Time: 487 Cost: 804.00
+Path 3: Seattle -> SanFrancisco -> Dallas -> Miami. Time: 512 Cost: 1106.00
+
+Flight 12: Charlotte to LosAngeles (Cost)
+Path 1: Charlotte -> Austin -> LosAngeles. Time: 422 Cost: 459.00
+Path 2: Charlotte -> Dallas -> Austin -> LosAngeles. Time: 623 Cost: 646.00
+Path 3: Charlotte -> Dallas -> LosAngeles. Time: 443 Cost: 686.00
+
+Flight 13: Anchorage to NewYork (Time)
+No flight plan can be created from Anchorage to NewYork.
