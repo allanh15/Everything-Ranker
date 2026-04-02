@@ -65,7 +65,25 @@ public class LoginController {
         else return false;
     }
     private boolean passwordHasLetter(String password){
-        for(int i = 0; i < userName )
+        for(int i = 0; i < password.length(); i++){
+            if(Character.isAlphabetic(password.charAt(i)))
+                return true;
+        }
+        return false;
+    }
+    private boolean passwordHasNumber(String password){
+        for(int i = 0; i < password.length(); i++){
+            if(Character.isDigit(password.charAt(i))){
+                return true;
+            }
+        }
+        return false;
+    }
+    //List of valid special characters !@#$%&*_-+=
+    private boolean passwordHasSpecialCharacter(String password){
+        for(int i = 0; i < password.length(); i++){
+            //make enum and check if character is in this type
+        }
     }
     
     // if password is valid, returns 0
@@ -75,12 +93,7 @@ public class LoginController {
     // if password doesnt contain number, return 4
     // if password doesnt contain special character, return 5
     private int isValidPassword(String password){
-        if(password.length() < MIN_PASSWORD_LENGTH && password.length() > MAX_PASSWORD_LENGTH ){
-            int specialChars = 0;
-            for(int i = 0; i < password.length(); i++){
-
-            }
-        }
+        return 0;
     }
     // if username is valid, return 0
     // if username is too short, return 1
