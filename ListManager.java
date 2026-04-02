@@ -1,19 +1,15 @@
+import java.util.Date;
 import java.util.List;
 
 /**
  * ListManager
- * Handles Create List (UC6) and Rank List (UC9) use cases.
+ * Handles Create List (UC19/R19), Rank List (UC7), Delete List, and Add Item use cases.
  *
- * Create List sequence:
- *   1. Validate inputs (title, authorID)
- *   2. DBManager.addList(list) → returns new list ID
- *
- * Rank List sequence:
- *   1. Validate inputs (listID, authorID, rankedItems)
- *   2. DBManager.getList(listID) → verify list exists
- *   3. Verify all ranked items exist in the list
- *   4. Delete any existing ranking by this user for this list
- *   5. DBManager.addRanking() for each item in order
+ * Methods (from DCD):
+ *   - createList(String title, String authorID, boolean access): int
+ *   - deleteList(String userID, int listID): boolean
+ *   - addItem(int listID, String itemName): String
+ *   - rankList(int listID, String authorID, List<String> rankedItems): String
  */
 public class ListManager {
     DBManager dbManager;
@@ -24,6 +20,8 @@ public class ListManager {
 
     /**
      * Creates a new list and stores it in the database.
+     * Referenced in UC19/R19: User creates a new ranking list and assigns it a title.
+     *
      * @param title - the list title
      * @param authorID - the userID of the creator
      * @param access - true for public, false for private
@@ -45,8 +43,52 @@ public class ListManager {
     }
 
     /**
+     * Deletes a list if the requesting user is the author.
+     * Enforces R22: Users cannot edit or delete lists created by other users.
+     *
+     * @param userID - the ID of the user requesting deletion
+     * @param listID - the ID of the list to delete
+     * @return true if list was deleted, false otherwise
+     */
+    public boolean deleteList(String userID, int listID){
+        if(userID == null || userID.trim().isEmpty()) return false;
+
+        String author = dbManager.getAuthor(listID);
+        if(author == null) return false; // list does not exist
+
+        // R22: verify requesting user is the author
+        if(!author.equals(userID)) return false;
+
+        return dbManager.deleteList(listID);
+    }
+
+    /**
+     * Adds an item to a list.
+     * Referenced in DCD: addItem(listID, itemName)
+     *
+     * @param listID - the ID of the list to add the item to
+     * @param itemName - the name of the item to add
+     * @return result message
+     */
+    public String addItem(int listID, String itemName){
+        if(itemName == null || itemName.trim().isEmpty()){
+            return "invalid item name";
+        }
+
+        EverythingList list = dbManager.getList(listID);
+        if(list == null) return "list not found";
+
+        if(list.hasItem(itemName.trim())){
+            return "item already exists";
+        }
+
+        dbManager.addItem(listID, itemName.trim());
+        return "item added";
+    }
+
+    /**
      * Ranks items in a list. Saves the ranking order for a specific user.
-     * Referenced in Rank List sequence diagram.
+     * Referenced in UC7 / Rank List sequence diagram.
      *
      * @param listID - the ID of the list to rank
      * @param authorID - the userID of the person ranking

@@ -2,7 +2,7 @@ import java.io.File;
 
 /**
  * CreateListTest
- * Use Case: UC6 - Create List
+ * Use Case: UC19/R19 - Create List
  *
  * Tests the createList(title, authorID, access) method of ListManager
  * following the Kung book test case analysis (Figures 20.13-20.15).
@@ -34,14 +34,12 @@ public class CreateListTest {
     }
 
     static void setup(){
-        // Delete test db if it exists so each run is fresh
         File f = new File("create_list_test.db");
         if(f.exists()) f.delete();
 
         dbManager = new DBManager("create_list_test.db");
         listManager = new ListManager(dbManager);
 
-        // Seed a user
         dbManager.addUser(new User("00000001", "testuser", "Pass123!", "test@email.com"));
     }
 
@@ -52,7 +50,7 @@ public class CreateListTest {
     }
 
     public static void main(String args[]){
-        System.out.println("\n=== UC6 - CREATE LIST TESTS ===\n");
+        System.out.println("\n=== UC19/R19 - CREATE LIST TESTS ===\n");
 
         // TC1: Valid title, valid author, private access → list created
         setup();
@@ -60,7 +58,7 @@ public class CreateListTest {
         assertTrue("TC1: Valid title + valid author + private → returns positive ID", id1 > 0);
         teardown();
 
-        // TC1b: Verify list is stored in database
+        // TC1b-e: Verify all stored attributes
         setup();
         int id1b = listManager.createList("Best Foods", "00000001", false);
         EverythingList retrieved = dbManager.getList(id1b);
@@ -68,6 +66,8 @@ public class CreateListTest {
         assertTrue("TC1c: Retrieved list has correct title", retrieved != null && retrieved.getTitle().equals("Best Foods"));
         assertTrue("TC1d: Retrieved list has correct author", retrieved != null && retrieved.getAuthorID().equals("00000001"));
         assertTrue("TC1e: Retrieved list has correct access (private)", retrieved != null && retrieved.getAccess() == false);
+        assertTrue("TC1f: Retrieved list has pubDate set", retrieved != null && retrieved.getPubDate() != null);
+        assertTrue("TC1g: Retrieved list has update date set", retrieved != null && retrieved.getUpdate() != null);
         teardown();
 
         // TC2: Valid title, valid author, public access → list created
@@ -119,6 +119,32 @@ public class CreateListTest {
         int idA = listManager.createList("List A", "00000001", false);
         int idB = listManager.createList("List B", "00000001", true);
         assertTrue("TC6: Two lists created with different IDs", idA > 0 && idB > 0 && idA != idB);
+        teardown();
+
+        // TC7: Created list is associated with the creator (R19)
+        setup();
+        int id7 = listManager.createList("My List", "00000001", false);
+        String author = dbManager.getAuthor(id7);
+        assertTrue("TC7: List author matches creator (R19)", "00000001".equals(author));
+        teardown();
+
+        // TC8: R22 — non-author cannot delete another user's list
+        setup();
+        dbManager.addUser(new User("00000002", "otheruser", "Pass456!", "other@email.com"));
+        int id8 = listManager.createList("Protected List", "00000001", false);
+        boolean deleted = listManager.deleteList("00000002", id8);
+        assertTrue("TC8: Non-author cannot delete list (R22)", deleted == false);
+        EverythingList stillExists = dbManager.getList(id8);
+        assertTrue("TC8b: List still exists after unauthorized delete (R22)", stillExists != null);
+        teardown();
+
+        // TC9: Author can delete their own list
+        setup();
+        int id9 = listManager.createList("Deletable List", "00000001", false);
+        boolean del9 = listManager.deleteList("00000001", id9);
+        assertTrue("TC9: Author can delete their own list", del9 == true);
+        EverythingList gone = dbManager.getList(id9);
+        assertTrue("TC9b: List is gone after author deletes it", gone == null);
         teardown();
 
         // Summary

@@ -8,11 +8,21 @@ public class LoginController {
      Username rules: must be between 8 and 16 characters containing letters(upper or lower) and numbers. cannot contain special characters or spaces
      Password rules: password must be at least 12 characters containting letters, numbers and at least one special character
      */
+
+    /**
+     * DCD method: msg(String username, String password): String
+     * Authenticates a user with provided credentials.
+     */
+    public String msg(String userName, String password){
+        return login(userName, password);
+    }
+
     public String login(String userName, String password){
+        if(userName == null || password == null) return "login failed";
         if(isValidUsername(userName)){
             DBManager DBM = new DBManager();
             User u = DBM.getUser(userName);
-            if(u.validatePassword(password)){
+            if(u != null && u.verify(password)){
                 this.user = u;
                 return "login successful";
             }else{
@@ -26,9 +36,9 @@ public class LoginController {
         return "logout successful";
     }
     private boolean isValidUsername(String userName){
-        if(userName.length() < 8 && userName.length() > 16){
+        if(userName.length() >= MIN_LENGTH_USERNAME && userName.length() <= MAX_LENGTH_USERNAME){
             for(int i = 0; i < userName.length(); i++){
-                if(!Character.isDigit(userName.charAt(i)) || !Character.isAlphabetic(userName.charAt(i)))
+                if(!Character.isDigit(userName.charAt(i)) && !Character.isAlphabetic(userName.charAt(i)))
                     return false;
             }
             return true;
