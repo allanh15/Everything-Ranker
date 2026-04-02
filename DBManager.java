@@ -148,10 +148,12 @@ public class DBManager {
         }
         return 1;
     }
-
-    /**
-     * DCD method: getUser(String username): User
-     */
+    public boolean userExists(String userName){
+        if(getUser(userName) != null){
+            return true;
+        }else return false;
+    }
+    
     public User getUser(String userName){
         try{
             PreparedStatement ps = c.prepareStatement(
