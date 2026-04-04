@@ -64,9 +64,10 @@ public class LoginController {
                         String userID = String.valueOf(10000000 + rnd.nextInt(90000000));
                         User newUser = new User(userID, userName, password, null);
                         dbManager.addUser(newUser);
+                        return "Account Created";
                 }
         }
-        return null;
+        
     }
 
 
@@ -89,19 +90,19 @@ public class LoginController {
 
     
     private boolean userNameLengthValid(String userName){
-        if(userName.length() < MIN_LENGTH_USERNAME && userName.length() > MAX_LENGTH_USERNAME){
+        if(userName.length() > MIN_LENGTH_USERNAME && userName.length() < MAX_LENGTH_USERNAME){
             return true;
         } else return false;
     }
     private boolean userNameCharactersValid(String userName){
         for(int i = 0; i < userName.length(); i++){
-            if(!Character.isDigit(userName.charAt(i)) || !Character.isAlphabetic(userName.charAt(i)))
+            if(!Character.isDigit(userName.charAt(i)) || !Character.isLetter(userName.charAt(i)))
                 return false;
         }
         return true;
     }
     private boolean passwordValidLength(String password){
-        if(password.length() < MIN_PASSWORD_LENGTH && password.length() > MAX_PASSWORD_LENGTH )
+        if(password.length() > MIN_PASSWORD_LENGTH && password.length() < MAX_PASSWORD_LENGTH)
             return true;
         else return false;
     }
