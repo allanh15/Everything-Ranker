@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class User{
@@ -6,25 +7,26 @@ public class User{
     password,
     email;                      //must be unique
     private List rankings;
-    
+
     //All variables except rankings must be defined in order to create a user
     public User(String userID, String userName, String password, String email){
         this.userID = userID;
         this.userName = userName;
         this.password = password;
         this.email = email;
+        this.rankings = new ArrayList();
     }
     public void setID(String userID){
-        userID = this.userID;
+        this.userID = userID;
     }
     public void setUserName(String userName){
-        userName = this.userName;
+        this.userName = userName;
     }
     public void setPassword(String password){
-        password = this.password;
+        this.password = password;
     }
     public void setEmail(String email){
-        email = this.email;
+        this.email = email;
     }
     public String getID(){
         return userID;
@@ -38,13 +40,18 @@ public class User{
     public String getEmail(){
         return email;
     }
+    public List getRankings(){
+        return rankings;
+    }
     public boolean validatePassword(String password){
-        if(this.password == password) return true;
+        if(this.password.equals(password)) return true;
         return false;
+    }
+    public boolean verify(String password){
+        return this.password.equals(password);
     }
     @Override
     public String toString(){
         return "User{userID ='" + userID + "', userName='" + userName + "', password='" + password + "', email='" + email + "}";
     }
 }
-
