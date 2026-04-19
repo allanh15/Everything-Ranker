@@ -61,6 +61,17 @@ public class ListManager {
 
         return dbManager.deleteList(listID);
     }
+    /**
+     * Validates the input
+     * Calls DBManager - passes the request to get actual lists from Database
+     * Returns results - gives back the list of EverythingList objects
+     */
+        public List<EverythingList> getUserCreatedLists(String userID) {
+        if(userID == null || userID.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+        return dbManager.getListsByUser(userID);
+    }
 
     /**
      * Adds an item to a list.
