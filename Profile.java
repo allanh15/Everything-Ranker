@@ -6,12 +6,14 @@ public class Profile {
     private String bio;
     private String profilePicture;
     private List<EverythingList> createdLists;
+    private List<EverythingRankings> createdRankings;
 
     public Profile(){
         this.fullName = "";
         this.bio = "";
         this.profilePicture = "";
         this.createdLists = new ArrayList<>();
+        this.createdRankings = new ArrayList<>();
     }
 
     public Profile(String fullName, String bio, String profilePicture){
@@ -19,15 +21,27 @@ public class Profile {
         this.bio = bio;
         this.profilePicture = profilePicture;
         this.createdLists = new ArrayList<>();
+        this.createdRankings = new ArrayList<>();
     }
 
-        public void displayCreatedLists() {
+    public void displayCreatedLists() {
         if(createdLists == null || createdLists.isEmpty()) {
             System.out.println("  No lists created yet.");
         } else {
             for(EverythingList list : createdLists) {
                 System.out.println("  - " + list.getTitle() + " (" + list.getItems().size() + " items)" +
                         (list.getAccess() ? " [Public]" : " [Private]"));
+            }
+        }
+    }
+
+    public void displayCreatedRankings() {
+        if(createdRankings == null || createdRankings.isEmpty()) {
+            System.out.println("  No rankings created yet.");
+        } else {
+            for(EverythingRankings ranking : createdRankings) {
+                System.out.println("  - " + ranking.getTitle() + " (" + ranking.getItems().size() + " items)" +
+                        (ranking.getAccess() ? " [Public]" : " [Private]"));
             }
         }
     }
@@ -39,7 +53,27 @@ public class Profile {
     public void setBio(String bio){ this.bio = bio; }
     public String getProfilePicture(){ return profilePicture; }
     public void setProfilePicture(String profilePicture){ this.profilePicture = profilePicture; }
+    public List<EverythingList> getCreatedLists(){ return createdLists;}
+    public void setCreatedLists(List<EverythingList> createdLists){ this.createdLists = createdLists;}
+    public List<Rankings> getCreatedRankings(){ return createdRankings;}
+    public void setCreatedRankings(List<Rankings> createdRankings){ this.createdRankings = createdRankings; }
 
+    public String displaySummary(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Full Name: ").append(fullName).append("\n");
+        sb.append("Bio: ").append(bio).append("\n");
+        sb.append("Lists created: ").append(createdLists.size()).append("\n");
+        for (EverythingList list : createdLists) {
+            sb.append(" - ").append(list.getTitle()).append("\n");
+        }
+        sb.append("Rankings created: ").append(createdRankings.size()).append("\n");
+        for (Rankings ranking : createdRankings) {
+            sb.append(" - ").append(ranking.getTitle()).append("\n");
+        }
+        return sb.toString();
+
+    }
+    
     @Override
     public String toString(){
         return "Profile{fullName='" + fullName + "', bio='" + bio + "'}";
@@ -49,5 +83,11 @@ public class Profile {
     }
     public void setCreatedLists(List<EverythingList> createdLists) {
         this.createdLists = createdLists;
+    }
+    public List<EverythingRankings> getCreatedRankings() {
+        return createdRankings;
+    }
+    public void setCreatedRankings(List<EverythingRankings> createdRankings) {
+        this.createdRankings = createdRankings;
     }
 }
