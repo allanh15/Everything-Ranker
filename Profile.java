@@ -1,5 +1,5 @@
 import java.util.List;
-import java.uril.ArrayList;
+import java.util.ArrayList;
 
 public class Profile {
     private String fullName;
@@ -55,8 +55,8 @@ public class Profile {
     public void setProfilePicture(String profilePicture){ this.profilePicture = profilePicture; }
     public List<EverythingList> getCreatedLists(){ return createdLists;}
     public void setCreatedLists(List<EverythingList> createdLists){ this.createdLists = createdLists;}
-    public List<Rankings> getCreatedRankings(){ return createdRankings;}
-    public void setCreatedRankings(List<Rankings> createdRankings){ this.createdRankings = createdRankings; }
+    public List<EverythingRankings> getCreatedRankings(){ return createdRankings;}
+    public void setCreatedRankings(List<EverythingRankings> createdRankings){ this.createdRankings = createdRankings; }
 
     public String displaySummary(){
         StringBuilder sb = new StringBuilder();
@@ -67,7 +67,7 @@ public class Profile {
             sb.append(" - ").append(list.getTitle()).append("\n");
         }
         sb.append("Rankings created: ").append(createdRankings.size()).append("\n");
-        for (Rankings ranking : createdRankings) {
+        for (EverythingRankings ranking : createdRankings) {
             sb.append(" - ").append(ranking.getTitle()).append("\n");
         }
         return sb.toString();
