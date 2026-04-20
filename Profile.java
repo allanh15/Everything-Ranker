@@ -6,12 +6,14 @@ public class Profile {
     private String bio;
     private String profilePicture;
     private List<EverythingList> createdLists;
+    private List<EverythingRankings> createdRankings;
 
     public Profile(){
         this.fullName = "";
         this.bio = "";
         this.profilePicture = "";
         this.createdLists = new ArrayList<>();
+        this.createdRankings = new ArrayList<>();
     }
 
     public Profile(String fullName, String bio, String profilePicture){
@@ -19,15 +21,27 @@ public class Profile {
         this.bio = bio;
         this.profilePicture = profilePicture;
         this.createdLists = new ArrayList<>();
+        this.createdRankings = new ArrayList<>();
     }
 
-        public void displayCreatedLists() {
+    public void displayCreatedLists() {
         if(createdLists == null || createdLists.isEmpty()) {
             System.out.println("  No lists created yet.");
         } else {
             for(EverythingList list : createdLists) {
                 System.out.println("  - " + list.getTitle() + " (" + list.getItems().size() + " items)" +
                         (list.getAccess() ? " [Public]" : " [Private]"));
+            }
+        }
+    }
+
+    public void displayCreatedRankings() {
+        if(createdRankings == null || createdRankings.isEmpty()) {
+            System.out.println("  No rankings created yet.");
+        } else {
+            for(EverythingRankings ranking : createdRankings) {
+                System.out.println("  - " + ranking.getTitle() + " (" + ranking.getItems().size() + " items)" +
+                        (ranking.getAccess() ? " [Public]" : " [Private]"));
             }
         }
     }
@@ -69,5 +83,11 @@ public class Profile {
     }
     public void setCreatedLists(List<EverythingList> createdLists) {
         this.createdLists = createdLists;
+    }
+    public List<EverythingRankings> getCreatedRankings() {
+        return createdRankings;
+    }
+    public void setCreatedRankings(List<EverythingRankings> createdRankings) {
+        this.createdRankings = createdRankings;
     }
 }
