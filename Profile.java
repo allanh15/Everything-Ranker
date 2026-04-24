@@ -24,15 +24,20 @@ public class Profile {
         this.createdRankings = new ArrayList<>();
     }
 
-    public void displayCreatedLists() {
+    public String displayCreatedLists() {
+        String output = "";
         if(createdLists == null || createdLists.isEmpty()) {
-            System.out.println("  No lists created yet.");
+            output = "  No lists created yet.";
+            System.out.println(output);
         } else {
             for(EverythingList list : createdLists) {
+                output += "  - " + list.getTitle() + " (" + list.getItems().size() + " items)" +
+                        (list.getAccess() ? " [Public]" : " [Private]") + "\n";
                 System.out.println("  - " + list.getTitle() + " (" + list.getItems().size() + " items)" +
                         (list.getAccess() ? " [Public]" : " [Private]"));
             }
         }
+        return output;
     }
 
     public void displayCreatedRankings() {
