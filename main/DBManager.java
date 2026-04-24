@@ -244,8 +244,67 @@ public class DBManager {
         }
     }
 
-    
-     public List<EverythingList> getListsByUser(String userID) {
+    public boolean updateList(int listID, String newTitle, boolean newAccess) {
+        try {
+            PreparedStatement ps = c.prepareStatement(
+                "UPDATE LISTS SET TITLE = ?, ACCESS = ?, UPDATE_DATE = ? WHERE ID = ?");
+            ps.setString(1, newTitle);
+            ps.setInt(2, newAccess ? 1 : 0);
+            ps.setLong(3, System.currentTimeMillis());
+            ps.setInt(4, listID);
+            int rows = ps.executeUpdate();
+            ps.close();
+            return rows > 0;
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            return false;
+        }
+    }
+
+    public List<EverythingList> getPublicLists() {
+        List<EverythingList> lists = new ArrayList<>();
+        try {
+            PreparedStatement ps = c.prepareStatement(
+                "SELECT ID FROM LISTS WHERE ACCESS = 1");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                EverythingList list = getList(rs.getInt("ID"));
+                if (list != null) lists.add(list);
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+        return lists;
+    }
+
+    public List<EverythingList> searchPublicLists(String titleQuery, String authorID) {
+        List<EverythingList> lists = new ArrayList<>();
+        boolean hasTitle = titleQuery != null && !titleQuery.trim().isEmpty();
+        boolean hasAuthor = authorID != null && !authorID.trim().isEmpty();
+        try {
+            StringBuilder sql = new StringBuilder("SELECT ID FROM LISTS WHERE ACCESS = 1");
+            if (hasTitle)  sql.append(" AND LOWER(TITLE) LIKE ?");
+            if (hasAuthor) sql.append(" AND AUTHOR_ID = ?");
+            PreparedStatement ps = c.prepareStatement(sql.toString());
+            int idx = 1;
+            if (hasTitle)  ps.setString(idx++, "%" + titleQuery.trim().toLowerCase() + "%");
+            if (hasAuthor) ps.setString(idx++, authorID.trim());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                EverythingList list = getList(rs.getInt("ID"));
+                if (list != null) lists.add(list);
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+        return lists;
+    }
+
+    public List<EverythingList> getListsByUser(String userID) {
         List<EverythingList> userLists = new ArrayList<>();
         try {
             PreparedStatement ps = c.prepareStatement(

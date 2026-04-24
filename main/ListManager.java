@@ -8,8 +8,11 @@ import java.util.ArrayList;
  * Methods (from DCD):
  *   - createList(String title, String authorID, boolean access): int
  *   - deleteList(String userID, int listID): boolean
+ *   - editList(String userID, int listID, String newTitle, boolean newAccess): String
  *   - addItem(int listID, String itemName): String
  *   - rankList(int listID, String authorID, List<String> rankedItems): String
+ *   - browsePublicLists(): List<EverythingList>
+ *   - searchLists(String titleQuery, String authorUsername): List<EverythingList>
  */
 public class ListManager {
     DBManager dbManager;
@@ -71,6 +74,60 @@ public class ListManager {
             return new ArrayList<>();
         }
         return dbManager.getListsByUser(userID);
+    }
+
+    /**
+     * Edits a list's title and/or access setting.
+     * Enforces R22: only the author can edit.
+     *
+     * @param userID    - the ID of the user requesting the edit
+     * @param listID    - the ID of the list to edit
+     * @param newTitle  - the new title (must not be null or empty)
+     * @param newAccess - true for public, false for private
+     * @return "edit successful" or an error message
+     */
+    public String editList(String userID, int listID, String newTitle, boolean newAccess) {
+        if (userID == null || userID.trim().isEmpty()) return "invalid user";
+        if (newTitle == null || newTitle.trim().isEmpty()) return "invalid title";
+
+        String author = dbManager.getAuthor(listID);
+        if (author == null) return "list not found";
+        if (!author.equals(userID)) return "unauthorized";
+
+        boolean updated = dbManager.updateList(listID, newTitle.trim(), newAccess);
+        return updated ? "edit successful" : "edit failed";
+    }
+
+    /**
+     * Returns all public lists in the system.
+     * Any user (including non-authors) can browse public lists.
+     *
+     * @return list of all EverythingList objects with access = true
+     */
+    public List<EverythingList> browsePublicLists() {
+        return dbManager.getPublicLists();
+    }
+
+    /**
+     * Searches public lists by title and/or author username.
+     * Both parameters are optional — passing null or empty for either
+     * means no filter is applied for that field.
+     * If both are null/empty, all public lists are returned.
+     * Private lists are never included in results.
+     *
+     * @param titleQuery     - partial title to search for (case-insensitive), or null
+     * @param authorUsername - exact username of the author to filter by, or null
+     * @return list of matching public EverythingList objects, empty list if none found
+     */
+    public List<EverythingList> searchLists(String titleQuery, String authorUsername) {
+        boolean hasAuthor = authorUsername != null && !authorUsername.trim().isEmpty();
+        String authorID = null;
+        if (hasAuthor) {
+            User author = dbManager.getUser(authorUsername.trim());
+            if (author == null) return new ArrayList<>();
+            authorID = author.getID();
+        }
+        return dbManager.searchPublicLists(titleQuery, authorID);
     }
 
     /**
