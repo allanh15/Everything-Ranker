@@ -244,6 +244,55 @@ public class DBManager {
         }
     }
 
+    
+     public List<EverythingList> getListsByUser(String userID) {
+        List<EverythingList> userLists = new ArrayList<>();
+        try {
+            PreparedStatement ps = c.prepareStatement(
+                    "SELECT ID FROM LISTS WHERE AUTHOR_ID = ?");
+            ps.setString(1, userID);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()) {
+                int listID = rs.getInt("ID");
+                EverythingList list = getList(listID);
+                if(list != null) {
+                    userLists.add(list);
+                }
+            }
+            rs.close();
+            ps.close();
+        } catch(Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+        return userLists;
+    }
+
+    public List<EverythingRankings> getRankingsByUser(String userID) {
+        List<EverythingRankings> userRankings = new ArrayList<>();
+        try {
+            PreparedStatement ps = c.prepareStatement(
+                    "SELECT DISTINCT LIST_ID FROM RANKINGS WHERE AUTHOR_ID = ?");
+            ps.setString(1, userID);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()) {
+                int listID = rs.getInt("LIST_ID");
+                EverythingList list = getList(listID);
+                if(list != null) {
+                    EverythingRankings ranking = new EverythingRankings(list.getID(), list.getTitle(), list.getAuthorID(), list.getAccess(), list.getPubDate().getTime(), list.getUpdate().getTime());
+                    ranking.setItems(getRankings(listID, userID));
+                    userRankings.add(ranking);
+                }
+            }
+            rs.close();
+            ps.close();
+        } catch(Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+        return userRankings;
+    }
+
     public String getAuthor(int listID){
         try{
             PreparedStatement ps = c.prepareStatement(

@@ -1,6 +1,6 @@
 import java.util.Date;
 import java.util.List;
-
+import java.util.ArrayList;
 /**
  * ListManager
  * Handles Create List (UC19/R19), Rank List (UC7), Delete List, and Add Item use cases.
@@ -60,6 +60,17 @@ public class ListManager {
         if(!author.equals(userID)) return false;
 
         return dbManager.deleteList(listID);
+    }
+    /**
+     * Validates the input
+     * Calls DBManager - passes the request to get actual lists from Database
+     * Returns results - gives back the list of EverythingList objects
+     */
+        public List<EverythingList> getUserCreatedLists(String userID) {
+        if(userID == null || userID.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+        return dbManager.getListsByUser(userID);
     }
 
     /**
