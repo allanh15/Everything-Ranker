@@ -78,16 +78,4 @@ public class Profile {
     public String toString(){
         return "Profile{fullName='" + fullName + "', bio='" + bio + "'}";
     }
-    public List<EverythingList> getCreatedLists() {
-        return createdLists;
-    }
-    public void setCreatedLists(List<EverythingList> createdLists) {
-        this.createdLists = createdLists;
-    }
-    public List<EverythingRankings> getCreatedRankings() {
-        return createdRankings;
-    }
-    public void setCreatedRankings(List<EverythingRankings> createdRankings) {
-        this.createdRankings = createdRankings;
-    }
 }
