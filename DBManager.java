@@ -33,7 +33,7 @@ public class DBManager {
         stmt = c.createStatement();
 
         String sql = "CREATE TABLE IF NOT EXISTS USERS " +
-                        "(ID INT PRIMARY KEY    NOT NULL," +
+                        "(ID TEXT PRIMARY KEY   NOT NULL," +
                         " USERNAME       TEXT   NOT NULL," +
                         " PASSWORD       TEXT   NOT NULL," +
                         " EMAIL          TEXT)";
