@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EverythingRanker</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800&display=swap" rel="stylesheet" />
+<style>
+  /* ── Design Tokens ───────────────────────────── */
+  :root {
+    --bg:           #3D3D3D;
+    --nav-bg:       #1D1D1D;
+    --row-light:    #6A6866;
+    --row-dark:     #525252;
+    --header-bg:    rgba(42, 42, 42, 0.37);
+    --search-bg:    rgba(42, 42, 42, 0.9);
+    --orange:       #F9AD60;
+    --blue:         #71A5FF;
+    --link-blue:    #2575FF;
+    --text:         #FFFFFF;
+    --text-muted:   rgba(255, 255, 255, 0.46);
+    --search-text:  rgba(255, 255, 255, 0.76);
+    --icon-fill:    #E3E3E3;
+
+    --shadow-text:  0px 4px 4px rgba(0, 0, 0, 0.25);
+
+    --radius-pill:   20px;
+    --radius-row:    10px;
+    --radius-btn:    18px;
+    --radius-search: 39px;
+  }
+
+  /* ── Reset ───────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    padding: 20px 20px 91px;
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* ── Navbar ──────────────────────────────────── */
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--nav-bg);
+    padding: 10px 35px;
+    border-radius: var(--radius-pill);
+    height: 50px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 50px;
+  }
+
+  .nav-links a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+  }
+
+  .nav-actions a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 18px;
+  }
+
+  /* ── Hero ────────────────────────────────────── */
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 84px;
+    gap: 41px;
+  }
+
+  .title {
+    font-size: 40px;
+    font-weight: 800;
+    line-height: 48px;
+    text-shadow: -4px 4px 4px rgba(0, 0, 0, 0.25);
+    letter-spacing: -0.5px;
+  }
+  .title .orange { color: var(--orange); }
+  .title .blue   { color: var(--blue); }
+
+  .search-bar {
+    width: 643px;
+    max-width: 100%;
+    height: 34px;
+    background: var(--search-bg);
+    border-radius: var(--radius-search);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+  }
+
+  .search-bar input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--search-text);
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+  }
+  .search-bar input::placeholder { color: var(--search-text); }
+
+  .search-bar .icon { flex-shrink: 0; display: block; }
+
+  /* ── Table ───────────────────────────────────── */
+  .table-wrap {
+    width: 1008px;
+    max-width: 100%;
+    margin: 56px auto 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .table {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    align-items: center;
+    height: 46px;
+    padding: 0 63px;
+    border-radius: var(--radius-row);
+  }
+
+  /* Header */
+  .row.header { background: var(--header-bg); }
+  .row.header .cell {
+    color: var(--text-muted);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 19px;
+    text-shadow: none;
+  }
+
+  /* Alternating data rows */
+  .row.data:nth-of-type(odd)  { background: var(--row-light); }
+  .row.data:nth-of-type(even) { background: var(--row-dark); }
+
+  .cell {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 24px;
+    text-shadow: var(--shadow-text);
+  }
+
+  .cell.username  { text-align: left;   color: var(--orange); }
+  .cell.category  { text-align: center; color: var(--blue); }
+  .cell.time      { text-align: right;  color: var(--text); }
+
+  .row.header .cell.username { text-align: left; }
+  .row.header .cell.category { text-align: center; }
+  .row.header .cell.time     { text-align: right; }
+
+  /* ── See more ────────────────────────────────── */
+  .see-more {
+    align-self: stretch;
+    text-align: right;
+    margin-top: 4px;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 24px;
+    color: var(--link-blue);
+    text-decoration: underline;
+    text-shadow: var(--shadow-text);
+  }
+
+  /* ── CTA ─────────────────────────────────────── */
+  .cta-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 38px;
+  }
+
+  .cta {
+    background: var(--orange);
+    color: #000;
+    border: none;
+    cursor: pointer;
+    padding: 10px 23px;
+    border-radius: var(--radius-btn);
+    font-family: 'Inter', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 29px;
+    min-width: 254px;
+    height: 49px;
+    transition: filter 0.15s ease;
+  }
+  .cta:hover { filter: brightness(1.05); }
+
+  /* ── Responsive ──────────────────────────────── */
+  @media (max-width: 1080px) {
+    .row { padding: 0 24px; }
+    .table-wrap { width: 100%; }
+  }
+  @media (max-width: 640px) {
+    .navbar { padding: 10px 18px; }
+    .nav-links { gap: 24px; }
+    .nav-links a { font-size: 16px; }
+    .title { font-size: 32px; line-height: 38px; }
+    .row { padding: 0 14px; height: 42px; }
+    .cell { font-size: 16px; }
+    .row.header .cell { font-size: 13px; }
+    .cta { font-size: 18px; min-width: 0; padding: 10px 22px; height: 44px; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="nav-links">
+        <a href="homepage.html">Most Recent</a>
+        <a href="view_other_rankings.html">Popular</a>
+      </div>
+      <div class="nav-actions">
+        <a href="login.html">Login or Sign Up</a>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+      <h1 class="title">
+        <span class="orange">Everything</span><span class="blue">Ranker</span>
+      </h1>
+
+      <div class="search-bar">
+        <input type="text" placeholder="Search..." aria-label="Search" />
+        <!-- Material Symbols search icon (from ER asset pack) -->
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 -960 960 960" fill="var(--icon-fill)" aria-hidden="true">
+          <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Table -->
+    <div class="table-wrap">
+      <div class="table" id="table">
+        <div class="row header">
+          <div class="cell username">Username</div>
+          <div class="cell category">Category</div>
+          <div class="cell time">Time of Ranking</div>
+        </div>
+        <!-- data rows injected via JS to avoid duplication -->
+      </div>
+
+      <a href="view_other_rankings.html" class="see-more">see more...</a>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-wrap">
+      <button class="cta" type="button" onclick="window.location.href='edit_list.html'">+ Create New List</button>
+    </div>
+
+  </div>
+
+  <script>
+    const rows = [
+      ['user_0001', 'Horror Movies',     '5 mins ago'],
+      ['user_0002', 'Video Games',       '10 mins ago'],
+      ['user_0003', 'Fast Food',         '35 mins ago'],
+      ['user_0004', 'Pop Artists',       '48 mins ago'],
+      ['user_0005', 'Wild Animals',      '1 hr ago'],
+      ['user_0006', 'Music Genres',      '5 hrs ago'],
+      ['user_0007', 'Historical Figures','12 hrs ago'],
+      ['user_0008', 'Marvel Movies',     '1 day ago'],
+      ['user_0009', 'Football Teams',    '1 week ago'],
+      ['user_0010', 'Scary Games',       '1 month ago'],
+    ];
+
+    const table = document.getElementById('table');
+    rows.forEach(([user, cat, time]) => {
+      const r = document.createElement('div');
+      r.className = 'row data';
+      r.innerHTML = `
+        <div class="cell username"><a href="view_your_profile.html" style="color:inherit;text-decoration:none;">${user}</a></div>
+        <div class="cell category"><a href="view_your_ranked_list.html" style="color:inherit;text-decoration:none;">${cat}</a></div>
+        <div class="cell time">${time}</div>
+      `;
+      table.appendChild(r);
+    });
+  </script>
+</body>
+</html>

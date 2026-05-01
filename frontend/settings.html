@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EverythingRanker — Settings</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  /* ── Design Tokens ───────────────────────────── */
+  :root {
+    --bg:           #3D3D3D;
+    --nav-bg:       #1D1D1D;
+    --card-bg:      #525252;
+    --orange:       #F9AD60;
+    --blue:         #5097FC;
+    --text:         #FFFFFF;
+    --icon-fill:    #E3E3E3;
+
+    --shadow-text:  -4px 4px 4px rgba(0, 0, 0, 0.25);
+    --shadow-card:  0px 4px 4px rgba(0, 0, 0, 0.25);
+
+    --radius-pill:  20px;
+    --radius-card:  20px;
+  }
+
+  /* ── Reset ───────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    padding: 20px 20px 112px;
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* ── Navbar ──────────────────────────────────── */
+  .navbar {
+    height: 50px;
+    background: var(--nav-bg);
+    border-radius: var(--radius-pill);
+    padding: 10px 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .wordmark {
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 29px;
+    text-decoration: none;
+    text-shadow: var(--shadow-text);
+  }
+  .wordmark .orange { color: var(--orange); }
+  .wordmark .blue   { color: var(--blue); }
+
+  .nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 46px;
+  }
+
+  .icon-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--icon-fill);
+    transition: opacity 0.15s;
+  }
+  .icon-btn:hover { opacity: 0.75; }
+  .icon-btn svg   { display: block; }
+
+  /* ── Main layout: back button + settings card ─ */
+  .settings-layout {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 53px;
+    margin-top: 42px;
+    padding: 0 15px;
+  }
+
+  /* ── Back button ─────────────────────────────── */
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 24px;
+    text-decoration: none;
+    flex-shrink: 0;
+    transition: opacity 0.15s;
+  }
+  .back-btn:hover { opacity: 0.85; }
+  .back-btn svg   { display: block; fill: var(--icon-fill); flex-shrink: 0; }
+
+  /* ── Settings Card ───────────────────────────── */
+  .settings-card {
+    flex: 1;
+    max-width: 900px;
+    min-height: 800px;
+    background: var(--card-bg);
+    box-shadow: var(--shadow-card);
+    border-radius: var(--radius-card);
+    padding: 80px 152px 208px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .settings-content {
+    width: 100%;
+    max-width: 595px;
+    display: flex;
+    flex-direction: column;
+    gap: 71px;
+  }
+
+  .settings-title {
+    font-size: 48px;
+    font-weight: 600;
+    line-height: 58px;
+    text-align: center;
+    color: var(--text);
+  }
+
+  .settings-options {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  .option-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 60px;
+  }
+
+  .option-label {
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 39px;
+    color: var(--text);
+  }
+
+  .option-link {
+    display: inline-block;
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 39px;
+    color: var(--text);
+    text-decoration: underline;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    text-align: left;
+    transition: opacity 0.15s;
+  }
+  .option-link:hover { opacity: 0.85; }
+
+  /* ── Toggle Switch ───────────────────────────── */
+  .toggle {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 52px;
+    height: 32px;
+    background: var(--orange);
+    border-radius: 100px;
+    position: relative;
+    cursor: pointer;
+    flex-shrink: 0;
+    border: none;
+    padding: 2px 4px;
+    transition: background 0.2s;
+  }
+  .toggle::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 4px;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    background: #FFFFFF;
+    border-radius: 50%;
+    transition: all 0.2s;
+  }
+  .toggle:not(:checked) {
+    background: #888;
+  }
+  .toggle:not(:checked)::before {
+    right: calc(100% - 28px);
+  }
+
+  /* ── Responsive ──────────────────────────────── */
+  @media (max-width: 1080px) {
+    .settings-layout { gap: 24px; padding: 0; }
+    .settings-card   { padding: 60px 60px 120px; }
+  }
+  @media (max-width: 720px) {
+    .navbar { padding: 10px 18px; }
+    .settings-layout { flex-direction: column; gap: 16px; }
+    .settings-card   { padding: 40px 24px 60px; min-height: 0; }
+    .settings-content { gap: 40px; }
+    .settings-title  { font-size: 36px; line-height: 44px; }
+    .option-label,
+    .option-link     { font-size: 22px; line-height: 28px; }
+    .option-row      { min-height: 0; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Navbar -->
+    <nav class="navbar">
+      <a class="wordmark" href="homepage.html">
+        <span class="orange">Everything</span><span class="blue">Ranker</span>
+      </a>
+      <div class="nav-icons">
+        <button class="icon-btn" type="button" aria-label="Profile" onclick="window.location.href='view_your_profile.html'">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true">
+            <path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z"/>
+          </svg>
+        </button>
+        <button class="icon-btn" type="button" aria-label="Home" onclick="window.location.href='homepage.html'">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true">
+            <path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/>
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Main layout: back button + settings card -->
+    <div class="settings-layout">
+      <a class="back-btn" href="view_your_profile.html">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 -960 960 960" aria-hidden="true">
+          <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/>
+        </svg>
+        Back To Profile
+      </a>
+
+      <section class="settings-card">
+        <div class="settings-content">
+          <h1 class="settings-title">Settings</h1>
+
+          <div class="settings-options">
+            <div class="option-row">
+              <span class="option-label">Account Privacy</span>
+              <input class="toggle" type="checkbox" aria-label="Account Privacy" checked />
+            </div>
+
+            <div class="option-row">
+              <button class="option-link" type="button">Update Profile Image</button>
+            </div>
+
+            <div class="option-row">
+              <button class="option-link" type="button">Change Password</button>
+            </div>
+
+            <div class="option-row">
+              <button class="option-link" type="button">Logout</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  </div>
+</body>
+</html>

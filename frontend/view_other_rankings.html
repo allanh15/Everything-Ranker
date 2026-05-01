@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EverythingRanker — Rankings For List_01</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  /* ── Design Tokens ───────────────────────────── */
+  :root {
+    --bg:           #3D3D3D;
+    --nav-bg:       #1D1D1D;
+    --header-bg:    rgba(42, 42, 42, 0.37);
+    --row-light:    #6A6866;
+    --row-dark:     #525252;
+    --orange:       #F9AD60;
+    --blue:         #71A5FF;
+    --text:         #FFFFFF;
+    --text-muted:   rgba(255, 255, 255, 0.46);
+    --btn-text:     #000000;
+    --icon-fill:    #E3E3E3;
+
+    --shadow-text-title: 4px 4px 4px rgba(0, 0, 0, 0.25);
+    --shadow-text-nav:  -4px 4px 4px rgba(0, 0, 0, 0.25);
+
+    --radius-pill:   20px;
+    --radius-row:    10px;
+    --radius-btn:    18px;
+  }
+
+  /* ── Reset ───────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    padding: 20px 20px 60px;
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* ── Navbar ──────────────────────────────────── */
+  .navbar {
+    height: 50px;
+    background: var(--nav-bg);
+    border-radius: var(--radius-pill);
+    padding: 10px 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .wordmark {
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 29px;
+    text-decoration: none;
+    text-shadow: var(--shadow-text-nav);
+  }
+  .wordmark .orange { color: var(--orange); }
+  .wordmark .blue   { color: var(--blue); }
+
+  .nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 46px;
+  }
+
+  .icon-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--icon-fill);
+    transition: opacity 0.15s;
+  }
+  .icon-btn:hover { opacity: 0.75; }
+  .icon-btn svg   { display: block; }
+  .icon-btn .person path { fill: var(--icon-fill); }
+
+  /* ── Page Title ──────────────────────────────── */
+  .page-title {
+    margin-top: 54px;
+    text-align: center;
+    font-size: 48px;
+    font-weight: 600;
+    line-height: 58px;
+    color: var(--text);
+    text-shadow: var(--shadow-text-title);
+  }
+
+  /* ── Rankings Table ──────────────────────────── */
+  .rankings {
+    margin-top: 92px;
+    width: 1008px;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+  }
+
+  /* shared row layout */
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    height: 41px;
+    border-radius: var(--radius-row);
+    padding: 0 78px;
+  }
+
+  .row > .cell {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 24px;
+    text-align: center;
+  }
+
+  /* header */
+  .row-header {
+    background: var(--header-bg);
+  }
+  .row-header .cell {
+    color: var(--text-muted);
+  }
+
+  /* body rows wrapper – tight stack with no gap between data rows */
+  .rows-body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .row-data        { background: var(--row-light); }
+  .row-data:nth-child(even) { background: var(--row-dark); }
+
+  .row-data .cell.username { color: var(--orange); }
+  .row-data .cell.time     { color: var(--text); }
+
+  /* ── CTA Button ──────────────────────────────── */
+  .cta-row {
+    margin-top: 73px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .cta {
+    height: 49px;
+    padding: 0 28px;
+    background: var(--orange);
+    border: none;
+    border-radius: var(--radius-btn);
+    color: var(--btn-text);
+    font-family: 'Inter', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 29px;
+    cursor: pointer;
+    transition: filter 0.15s;
+  }
+  .cta:hover { filter: brightness(1.05); }
+
+  /* ── Responsive ──────────────────────────────── */
+  @media (max-width: 1080px) {
+    .rankings { width: 100%; }
+    .row      { padding: 0 32px; }
+  }
+
+  @media (max-width: 720px) {
+    .navbar    { padding: 10px 18px; }
+    .nav-icons { gap: 24px; }
+    .wordmark  { font-size: 20px; }
+    .page-title{ font-size: 32px; line-height: 40px; margin-top: 48px; }
+    .rankings  { margin-top: 40px; }
+    .row       { padding: 0 16px; }
+    .row > .cell { font-size: 16px; line-height: 20px; }
+    .cta       { font-size: 20px; line-height: 24px; height: 44px; padding: 0 22px; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Navbar -->
+    <nav class="navbar">
+      <a class="wordmark" href="homepage.html">
+        <span class="orange">Everything</span><span class="blue">Ranker</span>
+      </a>
+      <div class="nav-icons">
+        <button class="icon-btn" type="button" aria-label="Profile" onclick="window.location.href='view_your_profile.html'">
+          <svg class="person" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 11.9751c-1.1 0 -2 -0.35 -2.7 -1.05 -0.7 -0.7 -1.05 -1.6 -1.05 -2.7s0.35 -2 1.05 -2.7c0.7 -0.7 1.6 -1.05 2.7 -1.05s2 0.35 2.7 1.05c0.7 0.7 1.05 1.6 1.05 2.7s-0.35 2 -1.05 2.7c-0.7 0.7 -1.6 1.05 -2.7 1.05Zm-8 8.025v-2.35c0 -0.63335 0.158335 -1.175 0.475 -1.625 0.316665 -0.45 0.725 -0.79165 1.225 -1.025 1.11665 -0.5 2.1875 -0.875 3.2125 -1.125s2.05415 -0.375 3.0875 -0.375 2.05835 0.12915 3.075 0.3875c1.01665 0.25835 2.08265 0.63075 3.198 1.11725 0.52165 0.2355 0.9399 0.5769 1.25475 1.02425 0.31485 0.44735 0.47225 0.98765 0.47225 1.621v2.35H4Zm1.5 -1.5h13v-0.85c0 -0.26665 -0.07915 -0.52085 -0.2375 -0.7625 -0.15835 -0.24165 -0.35415 -0.42085 -0.5875 -0.5375 -1.06665 -0.51665 -2.04165 -0.87085 -2.925 -1.0625 -0.88335 -0.19165 -1.8 -0.2875 -2.75 -0.2875s-1.875 0.09585 -2.775 0.2875c-0.9 0.19165 -1.875 0.54585 -2.925 1.0625 -0.23335 0.11665 -0.425 0.29585 -0.575 0.5375 -0.15 0.24165 -0.225 0.49585 -0.225 0.7625v0.85Zm6.5 -8.025c0.65 0 1.1875 -0.2125 1.6125 -0.6375 0.425 -0.425 0.6375 -0.9625 0.6375 -1.6125s-0.2125 -1.1875 -0.6375 -1.6125c-0.425 -0.425 -0.9625 -0.6375 -1.6125 -0.6375s-1.1875 0.2125 -1.6125 0.6375c-0.425 0.425 -0.6375 0.9625 -0.6375 1.6125s0.2125 1.1875 0.6375 1.6125c0.425 0.425 0.9625 0.6375 1.6125 0.6375Z" stroke-width="0.5"/>
+          </svg>
+        </button>
+        <a class="icon-btn" href="homepage.html" aria-label="Home">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true">
+            <path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/>
+          </svg>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Page Title -->
+    <h1 class="page-title">Rankings For List_01</h1>
+
+    <!-- Rankings Table (built with divs + grid) -->
+    <section class="rankings" aria-label="User rankings">
+      <div class="row row-header" role="row">
+        <div class="cell" role="columnheader">Username</div>
+        <div class="cell" role="columnheader">Time of Ranking</div>
+      </div>
+
+      <div class="rows-body" id="rows-body" role="rowgroup">
+        <!-- Data rows injected via JS to avoid duplication -->
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="cta-row">
+      <button class="cta" type="button" onclick="window.location.href='ranking.html'">+ Start New Ranking</button>
+    </div>
+
+  </div>
+
+  <script>
+    const rankings = [
+      { user: 'user_0001', time: '6 mins ago' },
+      { user: 'user_0002', time: '2 hrs ago' },
+      { user: 'user_0003', time: '10 hrs ago' },
+      { user: 'user_0004', time: '18 hrs ago' },
+      { user: 'user_0005', time: '2 days ago' },
+      { user: 'user_0006', time: '5 days ago' },
+      { user: 'user_0007', time: '1 week ago' },
+      { user: 'user_0008', time: '3 weeks ago' },
+    ];
+
+    const body = document.getElementById('rows-body');
+    rankings.forEach(({ user, time }) => {
+      const row = document.createElement('div');
+      row.className = 'row row-data';
+      row.setAttribute('role', 'row');
+      row.innerHTML = `
+        <div class="cell username" role="cell"><a href="view_your_profile.html" style="color:inherit;text-decoration:none;">${user}</a></div>
+        <div class="cell time" role="cell">${time}</div>
+      `;
+      body.appendChild(row);
+    });
+  </script>
+</body>
+</html>

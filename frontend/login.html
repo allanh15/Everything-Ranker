@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EverythingRanker — Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet" />
+<style>
+  /* ── Design Tokens ───────────────────────────── */
+  :root {
+    --bg:           #3D3D3D;
+    --nav-bg:       #1D1D1D;
+    --card-bg:      #6E6E6E;
+    --input-bg:     #FFFFFF;
+    --placeholder:  #CDC9C9;
+    --orange:       #F9AD60;
+    --blue:         #71A5FF;
+    --submit-blue:  #5097FC;
+    --text:         #FFFFFF;
+    --icon-fill:    #E3E3E3;
+
+    --shadow-text:  -4px 4px 4px rgba(0, 0, 0, 0.25);
+    --shadow-card:  0px 4px 4px rgba(0, 0, 0, 0.25);
+
+    --radius-pill:   20px;
+    --radius-card:   20px;
+    --radius-field:  20px;
+    --radius-btn:    20px;
+  }
+
+  /* ── Reset ───────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    padding: 20px 20px 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 29px;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 1400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 29px;
+  }
+
+  /* ── Navbar ──────────────────────────────────── */
+  .navbar {
+    width: 100%;
+    height: 50px;
+    background: var(--nav-bg);
+    border-radius: var(--radius-pill);
+    padding: 10px 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .wordmark {
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 29px;
+    text-shadow: var(--shadow-text);
+  }
+  .wordmark .orange { color: var(--orange); }
+  .wordmark .blue   { color: var(--blue); }
+
+  .nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 46px;
+  }
+
+  .icon-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--icon-fill);
+    transition: opacity 0.15s;
+  }
+  .icon-btn:hover { opacity: 0.75; }
+  .icon-btn svg   { display: block; }
+  /* Override the person SVG's hardcoded black fill */
+  .icon-btn .person path { fill: var(--icon-fill); }
+
+  /* ── Auth blocks ─────────────────────────────── */
+  .stack {
+    width: 100%;
+    max-width: 680px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 29px;
+  }
+
+  .card {
+    width: 100%;
+    background: var(--card-bg);
+    border-radius: var(--radius-card);
+    padding: 40px 70px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .card.login          { gap: 35px; box-shadow: none; }
+  .card.create-account { gap: 25px; box-shadow: var(--shadow-card); }
+
+  .card-title {
+    width: 100%;
+    text-align: center;
+    font-size: 36px;
+    font-weight: 500;
+    line-height: 44px;
+    color: var(--text);
+  }
+
+  .fields {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .card.login .fields          { gap: 30px; }
+  .card.create-account .fields { gap: 25px; }
+
+  .field {
+    width: 100%;
+    height: 40px;
+    background: var(--input-bg);
+    border-radius: var(--radius-field);
+    border: none;
+    outline: none;
+    padding: 0 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 29px;
+    color: #1D1D1D;
+  }
+  .field::placeholder { color: var(--placeholder); }
+
+  .submit {
+    width: 110px;
+    height: 40px;
+    background: var(--submit-blue);
+    border: none;
+    border-radius: var(--radius-btn);
+    box-shadow: var(--shadow-card);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+    cursor: pointer;
+    transition: filter 0.15s;
+  }
+  .submit:hover { filter: brightness(1.08); }
+
+  /* ── "or" divider ────────────────────────────── */
+  .divider {
+    width: 100%;
+    max-width: 680px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .divider .line {
+    flex: 1;
+    height: 0;
+    border-top: 1px solid var(--text);
+  }
+  .divider .or-text {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 29px;
+    color: var(--text);
+    text-align: center;
+    min-width: 31px;
+  }
+
+  /* ── Responsive ──────────────────────────────── */
+  @media (max-width: 720px) {
+    .navbar      { padding: 10px 18px; }
+    .nav-icons   { gap: 24px; }
+    .wordmark    { font-size: 20px; }
+    .card        { padding: 32px 28px 20px; }
+    .card-title  { font-size: 28px; line-height: 36px; }
+    .field       { font-size: 18px; padding: 0 16px; }
+    .divider .or-text { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Navbar -->
+    <nav class="navbar">
+      <a class="wordmark" href="homepage.html" style="text-decoration:none;">
+        <span class="orange">Everything</span><span class="blue">Ranker</span>
+      </a>
+
+      <div class="nav-icons">
+        <button class="icon-btn" type="button" aria-label="Profile" onclick="window.location.href='view_your_profile.html'">
+          <!-- Person — Streamline Outlined Material Symbols (from ER asset pack) -->
+          <svg class="person" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 11.9751c-1.1 0 -2 -0.35 -2.7 -1.05 -0.7 -0.7 -1.05 -1.6 -1.05 -2.7s0.35 -2 1.05 -2.7c0.7 -0.7 1.6 -1.05 2.7 -1.05s2 0.35 2.7 1.05c0.7 0.7 1.05 1.6 1.05 2.7s-0.35 2 -1.05 2.7c-0.7 0.7 -1.6 1.05 -2.7 1.05Zm-8 8.025v-2.35c0 -0.63335 0.158335 -1.175 0.475 -1.625 0.316665 -0.45 0.725 -0.79165 1.225 -1.025 1.11665 -0.5 2.1875 -0.875 3.2125 -1.125s2.05415 -0.375 3.0875 -0.375 2.05835 0.12915 3.075 0.3875c1.01665 0.25835 2.08265 0.63075 3.198 1.11725 0.52165 0.2355 0.9399 0.5769 1.25475 1.02425 0.31485 0.44735 0.47225 0.98765 0.47225 1.621v2.35H4Zm1.5 -1.5h13v-0.85c0 -0.26665 -0.07915 -0.52085 -0.2375 -0.7625 -0.15835 -0.24165 -0.35415 -0.42085 -0.5875 -0.5375 -1.06665 -0.51665 -2.04165 -0.87085 -2.925 -1.0625 -0.88335 -0.19165 -1.8 -0.2875 -2.75 -0.2875s-1.875 0.09585 -2.775 0.2875c-0.9 0.19165 -1.875 0.54585 -2.925 1.0625 -0.23335 0.11665 -0.425 0.29585 -0.575 0.5375 -0.15 0.24165 -0.225 0.49585 -0.225 0.7625v0.85Zm6.5 -8.025c0.65 0 1.1875 -0.2125 1.6125 -0.6375 0.425 -0.425 0.6375 -0.9625 0.6375 -1.6125s-0.2125 -1.1875 -0.6375 -1.6125c-0.425 -0.425 -0.9625 -0.6375 -1.6125 -0.6375s-1.1875 0.2125 -1.6125 0.6375c-0.425 0.425 -0.6375 0.9625 -0.6375 1.6125s0.2125 1.1875 0.6375 1.6125c0.425 0.425 0.9625 0.6375 1.6125 0.6375Z" stroke-width="0.5"/>
+          </svg>
+        </button>
+
+        <a class="icon-btn" href="homepage.html" aria-label="Home">
+          <!-- Home (from ER asset pack) -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true">
+            <path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/>
+          </svg>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Login + Create Account stack -->
+    <div class="stack">
+
+      <!-- Login -->
+      <section class="card login">
+        <h2 class="card-title">Login</h2>
+        <form class="fields" onsubmit="event.preventDefault();">
+          <input class="field" type="text"     name="login_username" placeholder="Username" autocomplete="username" />
+          <input class="field" type="password" name="login_password" placeholder="Password" autocomplete="current-password" />
+        </form>
+        <button class="submit" type="button" onclick="window.location.href='homepage.html'">Submit</button>
+      </section>
+
+      <!-- "or" divider -->
+      <div class="divider" role="separator" aria-label="or">
+        <span class="line"></span>
+        <span class="or-text">or</span>
+        <span class="line"></span>
+      </div>
+
+      <!-- Create Account -->
+      <section class="card create-account">
+        <h2 class="card-title">Create Account</h2>
+        <form class="fields" onsubmit="event.preventDefault();">
+          <input class="field" type="email"    name="signup_email"    placeholder="Email"    autocomplete="email" />
+          <input class="field" type="text"     name="signup_username" placeholder="Username" autocomplete="username" />
+          <input class="field" type="password" name="signup_password" placeholder="Password" autocomplete="new-password" />
+        </form>
+        <button class="submit" type="button" onclick="window.location.href='homepage.html'">Submit</button>
+      </section>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
