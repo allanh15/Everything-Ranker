@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EverythingRanker — Home</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #3D3D3D; --nav-bg: #1D1D1D; --header-bg: rgba(42,42,42,.37);
+    --row-light: #6A6866; --row-dark: #525252;
+    --orange: #F9AD60; --blue: #71A5FF; --text: #FFFFFF;
+    --text-muted: rgba(255,255,255,.46); --btn-text: #000;
+    --icon-fill: #E3E3E3;
+    --shadow-text-nav: -4px 4px 4px rgba(0,0,0,.25);
+    --radius-pill: 20px; --radius-row: 10px; --radius-btn: 18px; --radius-search: 18px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); font-family: 'Inter', sans-serif; color: var(--text); min-height: 100vh; padding: 20px 20px 60px; }
+  .container { max-width: 1400px; margin: 0 auto; }
+  .navbar { height: 50px; background: var(--nav-bg); border-radius: var(--radius-pill); padding: 10px 35px; display: flex; justify-content: space-between; align-items: center; }
+  .wordmark { font-size: 24px; font-weight: 800; text-decoration: none; text-shadow: var(--shadow-text-nav); }
+  .wordmark .orange { color: var(--orange); }
+  .wordmark .blue   { color: var(--blue); }
+  .nav-icons { display: flex; align-items: center; gap: 46px; }
+  .icon-btn { background: none; border: none; padding: 0; cursor: pointer; display: inline-flex; align-items: center; color: var(--icon-fill); transition: opacity .15s; }
+  .icon-btn:hover { opacity: .75; }
+  .icon-btn svg { display: block; }
+  .toolbar { margin-top: 40px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .search-wrap { position: relative; flex: 1; max-width: 500px; }
+  .search-wrap svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); fill: var(--text-muted); pointer-events: none; }
+  .search-input { width: 100%; height: 46px; border-radius: var(--radius-search); border: none; background: var(--row-dark); color: var(--text); font-family: 'Inter', sans-serif; font-size: 18px; padding: 0 16px 0 44px; outline: none; }
+  .search-input:focus { box-shadow: 0 0 0 2px var(--orange); }
+  .cta { height: 49px; padding: 0 28px; background: var(--orange); border: none; border-radius: var(--radius-btn); color: var(--btn-text); font-family: 'Inter', sans-serif; font-size: 24px; font-weight: 800; cursor: pointer; transition: filter .15s; white-space: nowrap; }
+  .cta:hover { filter: brightness(1.05); }
+  .table-wrap { margin-top: 28px; width: 100%; max-width: 1008px; margin-left: auto; margin-right: auto; display: flex; flex-direction: column; gap: 11px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; height: 41px; border-radius: var(--radius-row); padding: 0 40px; }
+  .row .cell { font-size: 20px; font-weight: 600; text-align: center; }
+  .row-header { background: var(--header-bg); }
+  .row-header .cell { color: var(--text-muted); }
+  .rows-body { display: flex; flex-direction: column; }
+  .row-data { background: var(--row-light); cursor: pointer; transition: filter .1s; }
+  .row-data:nth-child(even) { background: var(--row-dark); }
+  .row-data:hover { filter: brightness(1.1); }
+  .row-data .cell.username { color: var(--orange); }
+  .row-data .cell.title    { color: var(--blue); }
+  .row-data .cell.time     { color: var(--text); }
+  .empty-msg { text-align: center; color: var(--text-muted); padding: 40px 0; font-size: 20px; }
+  @media(max-width:720px){
+    .navbar { padding: 10px 18px; } .nav-icons { gap: 24px; }
+    .row { padding: 0 12px; } .row .cell { font-size: 15px; }
+    .cta { font-size: 18px; height: 42px; padding: 0 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <nav class="navbar">
+    <a class="wordmark" href="homepage.html"><span class="orange">Everything</span><span class="blue">Ranker</span></a>
+    <div class="nav-icons">
+      <button class="icon-btn" type="button" aria-label="Profile" id="profile-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 -960 960 960" fill="currentColor"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z"/></svg>
+      </button>
+      <button class="icon-btn" type="button" aria-label="Home" onclick="window.location.href='homepage.html'">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 -960 960 960" fill="currentColor"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <div class="toolbar">
+    <div class="search-wrap">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 -960 960 960"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>
+      <input class="search-input" type="text" id="search" placeholder="Search..." />
+    </div>
+    <button class="cta" id="create-btn">+ Create New List</button>
+  </div>
+
+  <section class="table-wrap" aria-label="Public lists">
+    <div class="row row-header" role="row">
+      <div class="cell" role="columnheader">Username</div>
+      <div class="cell" role="columnheader">List Name</div>
+      <div class="cell" role="columnheader">Time</div>
+    </div>
+    <div class="rows-body" id="rows-body" role="rowgroup"></div>
+  </section>
+</div>
+
+<script src="api.js"></script>
+<script>
+  const user = getUser();
+  document.getElementById('profile-btn').addEventListener('click', () => {
+    window.location.href = user ? 'view_your_profile.html' : 'login.html';
+  });
+  document.getElementById('create-btn').addEventListener('click', () => {
+    if (!user) { window.location.href = 'login.html'; return; }
+    window.location.href = 'edit_list.html?new=1';
+  });
+
+  let allLists = [];
+
+  async function loadLists(query = '') {
+    const params = query ? `?title=${encodeURIComponent(query)}` : '';
+    const res = await apiFetch('/lists/public' + params);
+    allLists = res.success ? res.data : [];
+    renderLists(allLists);
+  }
+
+  const usernameCache = {};
+  async function resolveUsername(userId) {
+    if (usernameCache[userId]) return usernameCache[userId];
+    const res = await apiFetch('/auth/users/' + userId);
+    const name = res.success ? res.data.username : userId;
+    usernameCache[userId] = name;
+    return name;
+  }
+
+  async function renderLists(lists) {
+    const body = document.getElementById('rows-body');
+    body.innerHTML = '';
+    if (!lists.length) {
+      body.innerHTML = '<p class="empty-msg">No public lists found.</p>';
+      return;
+    }
+    for (const list of lists) {
+      const username = await resolveUsername(list.authorId);
+      const row = document.createElement('div');
+      row.className = 'row row-data';
+      row.setAttribute('role', 'row');
+      row.innerHTML = `
+        <div class="cell username" role="cell">${username}</div>
+        <div class="cell title" role="cell">${list.title}</div>
+        <div class="cell time" role="cell">${timeAgo(list.pubDate)}</div>
+      `;
+      row.addEventListener('click', () => {
+        window.location.href = `view_other_rankings.html?listId=${list.id}`;
+      });
+      body.appendChild(row);
+    }
+  }
+
+  let searchTimer;
+  document.getElementById('search').addEventListener('input', e => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => loadLists(e.target.value.trim()), 300);
+  });
+
+  loadLists();
+</script>
+</body>
+</html>

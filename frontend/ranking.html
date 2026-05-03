@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EverythingRanker — Rank</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #3D3D3D; --nav-bg: #1D1D1D; --card-bg: #525252;
+    --orange: #F9AD60; --blue: #5097FC; --text: #FFFFFF; --icon-fill: #E3E3E3;
+    --shadow-text: -4px 4px 4px rgba(0,0,0,.25); --shadow-card: 0 4px 4px rgba(0,0,0,.25);
+    --radius-pill: 20px; --radius-card: 20px; --radius-btn: 18px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); font-family: 'Inter', sans-serif; color: var(--text); min-height: 100vh; padding: 20px 20px 60px; }
+  .container { max-width: 1400px; margin: 0 auto; }
+  .navbar { height: 50px; background: var(--nav-bg); border-radius: var(--radius-pill); padding: 10px 35px; display: flex; justify-content: space-between; align-items: center; }
+  .wordmark { font-size: 24px; font-weight: 800; text-decoration: none; text-shadow: var(--shadow-text); }
+  .wordmark .orange { color: var(--orange); }
+  .wordmark .blue   { color: var(--blue); }
+  .nav-icons { display: flex; align-items: center; gap: 46px; }
+  .icon-btn { background: none; border: none; padding: 0; cursor: pointer; display: inline-flex; align-items: center; color: var(--icon-fill); transition: opacity .15s; }
+  .icon-btn:hover { opacity: .75; }
+  .page-title { margin-top: 40px; text-align: center; font-size: 36px; font-weight: 600; color: var(--text); }
+  .pair-wrap { display: flex; justify-content: center; align-items: center; gap: 48px; margin-top: 48px; flex-wrap: wrap; }
+  .choice-card { width: 420px; max-width: calc(50vw - 60px); min-height: 300px; border-radius: var(--radius-card); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: filter .15s, transform .1s; font-size: 28px; font-weight: 700; text-align: center; padding: 32px; color: #000; }
+  .choice-card:hover { filter: brightness(1.08); transform: scale(1.02); }
+  .choice-card.left  { background: var(--orange); }
+  .choice-card.right { background: var(--blue); }
+  .vs-label { font-size: 48px; font-weight: 800; color: var(--text); flex-shrink: 0; }
+  .toolbar { display: flex; justify-content: center; align-items: center; gap: 24px; margin-top: 40px; flex-wrap: wrap; }
+  .tool-btn { height: 44px; padding: 0 24px; border-radius: var(--radius-btn); border: 2px solid rgba(255,255,255,.3); background: rgba(0,0,0,.16); color: rgba(255,255,255,.7); font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 600; cursor: pointer; transition: opacity .15s; display: flex; align-items: center; gap: 8px; }
+  .tool-btn:hover { opacity: .85; }
+  .tool-btn:disabled { opacity: .3; cursor: not-allowed; }
+  .btn-finish { background: var(--orange); color: #000; border-color: var(--orange); font-weight: 800; font-size: 20px; }
+  .progress { text-align: center; margin-top: 24px; font-size: 16px; color: rgba(255,255,255,.5); }
+  .complete-msg { text-align: center; margin-top: 60px; }
+  .complete-msg h2 { font-size: 36px; font-weight: 700; margin-bottom: 24px; }
+  .btn-primary { height: 49px; padding: 0 40px; background: var(--orange); border: none; border-radius: var(--radius-btn); color: #000; font-family: 'Inter', sans-serif; font-size: 24px; font-weight: 800; cursor: pointer; transition: filter .15s; }
+  .btn-primary:hover { filter: brightness(1.05); }
+  .error-msg { text-align: center; color: #ff7070; font-size: 18px; margin-top: 20px; }
+  @media(max-width:720px){
+    .choice-card { width: 100%; max-width: 100%; min-height: 160px; font-size: 22px; }
+    .pair-wrap { gap: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <nav class="navbar">
+    <a class="wordmark" href="homepage.html"><span class="orange">Everything</span><span class="blue">Ranker</span></a>
+    <div class="nav-icons">
+      <button class="icon-btn" type="button" aria-label="Profile" onclick="window.location.href='view_your_profile.html'">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 -960 960 960" fill="currentColor"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z"/></svg>
+      </button>
+      <button class="icon-btn" type="button" aria-label="Home" onclick="window.location.href='homepage.html'">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 -960 960 960" fill="currentColor"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <h1 class="page-title" id="page-title">Ranking…</h1>
+
+  <div id="pair-section">
+    <div class="pair-wrap">
+      <div class="choice-card left" id="card-left">—</div>
+      <span class="vs-label">VS</span>
+      <div class="choice-card right" id="card-right">—</div>
+    </div>
+    <div class="toolbar">
+      <button class="tool-btn" id="undo-btn" disabled>↩ Undo</button>
+      <button class="tool-btn" id="skip-pair-btn">Skip Pair</button>
+      <button class="tool-btn btn-finish" id="finish-btn" style="display:none">Finish &amp; Save</button>
+    </div>
+    <p class="progress" id="progress"></p>
+  </div>
+
+  <div class="complete-msg" id="complete-section" style="display:none">
+    <h2>All pairs compared!</h2>
+    <button class="btn-primary" id="save-btn">Save Ranking</button>
+  </div>
+
+  <p class="error-msg" id="error-msg"></p>
+</div>
+
+<script src="api.js"></script>
+<script>
+  const user = requireAuth();
+  if (!user) throw new Error('not logged in');
+
+  const params = new URLSearchParams(window.location.search);
+  const listId = parseInt(params.get('listId'));
+  if (!listId) { window.location.href = 'homepage.html'; }
+
+  let canUndo = false;
+  let isComplete = false;
+
+  async function startSession() {
+    const res = await apiFetch('/rank/start', {
+      method: 'POST',
+      body: JSON.stringify({ userId: user.userId, listId })
+    });
+    if (!res.success) { document.getElementById('error-msg').textContent = res.message; return; }
+
+    // Load list title
+    const listRes = await apiFetch('/lists/' + listId);
+    if (listRes.success) document.getElementById('page-title').textContent = 'Ranking: ' + listRes.data.title;
+
+    await loadNextPair();
+  }
+
+  async function loadNextPair() {
+    const res = await apiFetch(`/rank/next-pair?userId=${user.userId}`);
+    if (!res.success) { document.getElementById('error-msg').textContent = res.message; return; }
+    const data = res.data;
+    canUndo = data.canUndo;
+    document.getElementById('undo-btn').disabled = !canUndo;
+
+    if (data.complete) {
+      showComplete();
+      return;
+    }
+    document.getElementById('card-left').textContent = data.item1;
+    document.getElementById('card-right').textContent = data.item2;
+  }
+
+  function showComplete() {
+    isComplete = true;
+    document.getElementById('pair-section').style.display = 'none';
+    document.getElementById('complete-section').style.display = 'block';
+  }
+
+  document.getElementById('card-left').addEventListener('click', () => recordChoice(document.getElementById('card-left').textContent));
+  document.getElementById('card-right').addEventListener('click', () => recordChoice(document.getElementById('card-right').textContent));
+
+  async function recordChoice(item) {
+    const res = await apiFetch('/rank/choice', {
+      method: 'POST',
+      body: JSON.stringify({ userId: user.userId, listId, selectedItem: item })
+    });
+    if (!res.success) { document.getElementById('error-msg').textContent = res.message; return; }
+    document.getElementById('error-msg').textContent = '';
+    canUndo = res.data.canUndo;
+    document.getElementById('undo-btn').disabled = !canUndo;
+    if (res.data.complete) { showComplete(); return; }
+    await loadNextPair();
+  }
+
+  document.getElementById('skip-pair-btn').addEventListener('click', async () => {
+    const res = await apiFetch('/rank/skip-pair', {
+      method: 'POST',
+      body: JSON.stringify({ userId: user.userId })
+    });
+    if (!res.success) { document.getElementById('error-msg').textContent = res.message; return; }
+    canUndo = res.data.canUndo;
+    document.getElementById('undo-btn').disabled = !canUndo;
+    if (res.data.complete) { showComplete(); return; }
+    await loadNextPair();
+  });
+
+  document.getElementById('undo-btn').addEventListener('click', async () => {
+    const res = await apiFetch('/rank/undo', {
+      method: 'POST',
+      body: JSON.stringify({ userId: user.userId })
+    });
+    if (!res.success) { document.getElementById('error-msg').textContent = res.message; return; }
+    canUndo = res.data.canUndo;
+    document.getElementById('undo-btn').disabled = !canUndo;
+    await loadNextPair();
+  });
+
+  async function saveRanking() {
+    const res = await apiFetch('/rank/finish', {
+      method: 'POST',
+      body: JSON.stringify({ userId: user.userId, listId })
+    });
+    if (!res.success) { document.getElementById('error-msg').textContent = res.message; return; }
+    window.location.href = `view_your_ranked_list.html?listId=${listId}&userId=${user.userId}`;
+  }
+
+  document.getElementById('save-btn').addEventListener('click', saveRanking);
+
+  startSession();
+</script>
+</body>
+</html>

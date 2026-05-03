@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EverythingRanker — Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #3D3D3D; --nav-bg: #1D1D1D; --card-bg: #525252;
+    --orange: #F9AD60; --blue: #5097FC; --text: #FFFFFF; --icon-fill: #E3E3E3;
+    --shadow-text: -4px 4px 4px rgba(0,0,0,.25); --shadow-card: 0 4px 4px rgba(0,0,0,.25);
+    --radius-pill: 20px; --radius-card: 20px; --radius-btn: 18px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); font-family: 'Inter', sans-serif; color: var(--text); min-height: 100vh; padding: 20px; }
+  .container { max-width: 1400px; margin: 0 auto; }
+  .navbar { height: 50px; background: var(--nav-bg); border-radius: var(--radius-pill); padding: 10px 35px; display: flex; align-items: center; }
+  .wordmark { font-size: 24px; font-weight: 800; text-decoration: none; text-shadow: var(--shadow-text); }
+  .wordmark .orange { color: var(--orange); }
+  .wordmark .blue   { color: var(--blue); }
+  .page-center { display: flex; flex-direction: column; align-items: center; gap: 40px; margin-top: 60px; }
+  .card { background: var(--card-bg); border-radius: var(--radius-card); box-shadow: var(--shadow-card); padding: 60px 72px; width: 100%; max-width: 680px; display: flex; flex-direction: column; align-items: center; gap: 32px; }
+  .card-title { font-size: 48px; font-weight: 600; }
+  .form-group { width: 100%; display: flex; flex-direction: column; gap: 12px; }
+  .form-group label { font-size: 20px; font-weight: 600; }
+  .form-group input { height: 48px; border-radius: 12px; border: none; padding: 0 16px; font-family: 'Inter', sans-serif; font-size: 18px; background: #3D3D3D; color: var(--text); outline: none; }
+  .form-group input:focus { box-shadow: 0 0 0 2px var(--orange); }
+  .btn-primary { height: 49px; padding: 0 40px; background: var(--orange); border: none; border-radius: var(--radius-btn); color: #000; font-family: 'Inter', sans-serif; font-size: 24px; font-weight: 800; cursor: pointer; transition: filter .15s; width: 100%; }
+  .btn-primary:hover { filter: brightness(1.05); }
+  .error-msg { color: #ff7070; font-size: 16px; font-weight: 600; text-align: center; min-height: 20px; }
+  @media(max-width:720px){ .card { padding: 40px 24px; } .card-title { font-size: 36px; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <nav class="navbar">
+    <a class="wordmark" href="login.html"><span class="orange">Everything</span><span class="blue">Ranker</span></a>
+  </nav>
+
+  <div class="page-center">
+    <!-- Login -->
+    <div class="card" id="login-card">
+      <h1 class="card-title">Login</h1>
+      <div class="form-group">
+        <label for="login-username">Username</label>
+        <input type="text" id="login-username" autocomplete="username" placeholder="Enter your username" />
+      </div>
+      <div class="form-group">
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" autocomplete="current-password" placeholder="Enter your password" />
+      </div>
+      <p class="error-msg" id="login-error"></p>
+      <button class="btn-primary" id="login-btn">Login</button>
+    </div>
+
+    <!-- Create Account -->
+    <div class="card" id="register-card">
+      <h1 class="card-title">Create Account</h1>
+      <div class="form-group">
+        <label for="reg-username">Username</label>
+        <input type="text" id="reg-username" autocomplete="off" placeholder="8–16 letters/numbers" />
+      </div>
+      <div class="form-group">
+        <label for="reg-password">Password</label>
+        <input type="password" id="reg-password" autocomplete="new-password" placeholder="12–20 chars, letter+number+special" />
+      </div>
+      <p class="error-msg" id="reg-error"></p>
+      <button class="btn-primary" id="reg-btn">Create Account</button>
+    </div>
+  </div>
+</div>
+
+<script src="api.js"></script>
+<script>
+  // If already logged in, go to homepage
+  if (getUser()) window.location.href = 'homepage.html';
+
+  document.getElementById('login-btn').addEventListener('click', async () => {
+    const username = document.getElementById('login-username').value.trim();
+    const password = document.getElementById('login-password').value;
+    const errEl = document.getElementById('login-error');
+    errEl.textContent = '';
+    if (!username || !password) { errEl.textContent = 'Please fill in all fields.'; return; }
+
+    const res = await apiFetch('/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ username, password })
+    });
+    if (res.success) {
+      localStorage.setItem('er_user', JSON.stringify({ userId: res.data.userId, username: res.data.username }));
+      window.location.href = 'homepage.html';
+    } else {
+      errEl.textContent = res.message || 'Login failed.';
+    }
+  });
+
+  document.getElementById('reg-btn').addEventListener('click', async () => {
+    const username = document.getElementById('reg-username').value.trim();
+    const password = document.getElementById('reg-password').value;
+    const errEl = document.getElementById('reg-error');
+    errEl.textContent = '';
+    if (!username || !password) { errEl.textContent = 'Please fill in all fields.'; return; }
+
+    const res = await apiFetch('/auth/register', {
+      method: 'POST',
+      body: JSON.stringify({ username, password })
+    });
+    if (res.success) {
+      // Auto-login after registration
+      const login = await apiFetch('/auth/login', {
+        method: 'POST',
+        body: JSON.stringify({ username, password })
+      });
+      if (login.success) {
+        localStorage.setItem('er_user', JSON.stringify({ userId: login.data.userId, username: login.data.username }));
+        window.location.href = 'homepage.html';
+      }
+    } else {
+      errEl.textContent = res.message || 'Registration failed.';
+    }
+  });
+
+  // Allow Enter key
+  ['login-username', 'login-password'].forEach(id => {
+    document.getElementById(id).addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('login-btn').click(); });
+  });
+  ['reg-username', 'reg-password'].forEach(id => {
+    document.getElementById(id).addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('reg-btn').click(); });
+  });
+</script>
+</body>
+</html>

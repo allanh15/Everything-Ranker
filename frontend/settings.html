@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EverythingRanker — Settings</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #3D3D3D; --nav-bg: #1D1D1D; --card-bg: #525252;
+    --orange: #F9AD60; --blue: #5097FC; --text: #FFFFFF; --icon-fill: #E3E3E3;
+    --shadow-text: -4px 4px 4px rgba(0,0,0,.25); --shadow-card: 0 4px 4px rgba(0,0,0,.25);
+    --radius-pill: 20px; --radius-card: 20px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); font-family: 'Inter', sans-serif; color: var(--text); min-height: 100vh; padding: 20px 20px 112px; }
+  .container { max-width: 1400px; margin: 0 auto; }
+  .navbar { height: 50px; background: var(--nav-bg); border-radius: var(--radius-pill); padding: 10px 35px; display: flex; justify-content: space-between; align-items: center; }
+  .wordmark { font-size: 24px; font-weight: 800; text-decoration: none; text-shadow: var(--shadow-text); }
+  .wordmark .orange { color: var(--orange); }
+  .wordmark .blue   { color: var(--blue); }
+  .nav-icons { display: flex; align-items: center; gap: 46px; }
+  .icon-btn { background: none; border: none; padding: 0; cursor: pointer; display: inline-flex; align-items: center; color: var(--icon-fill); transition: opacity .15s; }
+  .icon-btn:hover { opacity: .75; }
+  .settings-layout { display: flex; flex-direction: row; align-items: flex-start; gap: 53px; margin-top: 42px; padding: 0 15px; }
+  .back-btn { display: inline-flex; align-items: center; gap: 6px; background: none; border: none; padding: 0; cursor: pointer; color: var(--text); font-family: 'Inter', sans-serif; font-size: 20px; font-weight: 500; text-decoration: none; flex-shrink: 0; transition: opacity .15s; }
+  .back-btn:hover { opacity: .85; }
+  .back-btn svg { fill: var(--icon-fill); }
+  .settings-card { flex: 1; max-width: 900px; min-height: 600px; background: var(--card-bg); box-shadow: var(--shadow-card); border-radius: var(--radius-card); padding: 80px 152px 120px; display: flex; flex-direction: column; align-items: center; }
+  .settings-content { width: 100%; max-width: 595px; display: flex; flex-direction: column; gap: 48px; }
+  .settings-title { font-size: 48px; font-weight: 600; text-align: center; }
+  .settings-options { display: flex; flex-direction: column; gap: 48px; }
+  .option-row { display: flex; justify-content: space-between; align-items: center; min-height: 60px; }
+  .option-label { font-size: 32px; font-weight: 600; }
+  .option-link { font-size: 32px; font-weight: 600; color: var(--text); text-decoration: underline; cursor: pointer; background: none; border: none; padding: 0; font-family: 'Inter', sans-serif; transition: opacity .15s; }
+  .option-link:hover { opacity: .85; }
+  .toggle { appearance: none; -webkit-appearance: none; width: 52px; height: 32px; background: var(--orange); border-radius: 100px; position: relative; cursor: pointer; border: none; transition: background .2s; }
+  .toggle::before { content: ''; position: absolute; top: 50%; right: 4px; transform: translateY(-50%); width: 24px; height: 24px; background: #FFF; border-radius: 50%; transition: all .2s; }
+  .toggle:not(:checked) { background: #888; }
+  .toggle:not(:checked)::before { right: calc(100% - 28px); }
+  /* Change password modal */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.6); display: flex; align-items: center; justify-content: center; z-index: 100; }
+  .modal { background: var(--card-bg); border-radius: var(--radius-card); padding: 48px 60px; width: 500px; max-width: 90vw; display: flex; flex-direction: column; gap: 20px; }
+  .modal h2 { font-size: 28px; font-weight: 700; }
+  .modal input { height: 44px; border-radius: 10px; border: none; background: #3D3D3D; color: var(--text); font-family: 'Inter', sans-serif; font-size: 18px; padding: 0 14px; outline: none; }
+  .modal input:focus { box-shadow: 0 0 0 2px var(--orange); }
+  .modal-actions { display: flex; gap: 12px; }
+  .btn-confirm { flex: 1; height: 44px; background: var(--orange); border: none; border-radius: 10px; color: #000; font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 700; cursor: pointer; }
+  .btn-cancel { height: 44px; padding: 0 20px; background: none; border: 2px solid rgba(255,255,255,.3); border-radius: 10px; color: var(--text); font-family: 'Inter', sans-serif; font-size: 18px; cursor: pointer; }
+  .modal-error { color: #ff7070; font-size: 14px; }
+  .modal-success { color: #6fff6f; font-size: 14px; }
+  @media(max-width:1080px){ .settings-layout { gap: 24px; } .settings-card { padding: 60px 60px 80px; } }
+  @media(max-width:720px){ .navbar { padding: 10px 18px; } .settings-layout { flex-direction: column; } .settings-card { padding: 40px 24px 60px; min-height: 0; } .settings-title { font-size: 36px; } .option-label, .option-link { font-size: 22px; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <nav class="navbar">
+    <a class="wordmark" href="homepage.html"><span class="orange">Everything</span><span class="blue">Ranker</span></a>
+    <div class="nav-icons">
+      <button class="icon-btn" type="button" aria-label="Profile" onclick="window.location.href='view_your_profile.html'">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 -960 960 960" fill="currentColor"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z"/></svg>
+      </button>
+      <button class="icon-btn" type="button" aria-label="Home" onclick="window.location.href='homepage.html'">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 -960 960 960" fill="currentColor"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <div class="settings-layout">
+    <a class="back-btn" href="view_your_profile.html">
+      <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 -960 960 960"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
+      Back To Profile
+    </a>
+
+    <section class="settings-card">
+      <div class="settings-content">
+        <h1 class="settings-title">Settings</h1>
+        <div class="settings-options">
+          <div class="option-row">
+            <span class="option-label">Account Privacy</span>
+            <input class="toggle" id="privacy-toggle" type="checkbox" aria-label="Account Privacy" checked />
+          </div>
+          <div class="option-row">
+            <button class="option-link" id="change-pw-btn" type="button">Change Password</button>
+          </div>
+          <div class="option-row">
+            <button class="option-link" id="logout-btn" type="button">Logout</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- Change Password Modal -->
+<div class="modal-overlay" id="pw-modal" style="display:none">
+  <div class="modal">
+    <h2>Change Password</h2>
+    <input type="password" id="old-pw" placeholder="Current password" />
+    <input type="password" id="new-pw" placeholder="New password (12–20 chars)" />
+    <input type="password" id="confirm-pw" placeholder="Confirm new password" />
+    <p id="modal-msg" class="modal-error"></p>
+    <div class="modal-actions">
+      <button class="btn-confirm" id="pw-confirm-btn">Update</button>
+      <button class="btn-cancel" id="pw-cancel-btn">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script src="api.js"></script>
+<script>
+  const user = requireAuth();
+  if (!user) throw new Error('not logged in');
+
+  document.getElementById('logout-btn').addEventListener('click', () => {
+    localStorage.removeItem('er_user');
+    window.location.href = 'login.html';
+  });
+
+  document.getElementById('change-pw-btn').addEventListener('click', () => {
+    document.getElementById('pw-modal').style.display = 'flex';
+    document.getElementById('modal-msg').textContent = '';
+    document.getElementById('old-pw').value = '';
+    document.getElementById('new-pw').value = '';
+    document.getElementById('confirm-pw').value = '';
+  });
+  document.getElementById('pw-cancel-btn').addEventListener('click', () => {
+    document.getElementById('pw-modal').style.display = 'none';
+  });
+
+  document.getElementById('pw-confirm-btn').addEventListener('click', async () => {
+    const oldPw = document.getElementById('old-pw').value;
+    const newPw = document.getElementById('new-pw').value;
+    const confirmPw = document.getElementById('confirm-pw').value;
+    const msgEl = document.getElementById('modal-msg');
+    msgEl.className = 'modal-error';
+    msgEl.textContent = '';
+
+    if (!oldPw || !newPw || !confirmPw) { msgEl.textContent = 'Please fill in all fields.'; return; }
+    if (newPw !== confirmPw) { msgEl.textContent = 'New passwords do not match.'; return; }
+
+    const res = await apiFetch('/auth/password', {
+      method: 'PUT',
+      body: JSON.stringify({ userId: user.userId, oldPassword: oldPw, newPassword: newPw })
+    });
+    if (res.success) {
+      msgEl.className = 'modal-success';
+      msgEl.textContent = 'Password updated!';
+      setTimeout(() => { document.getElementById('pw-modal').style.display = 'none'; }, 1200);
+    } else {
+      msgEl.textContent = res.message || 'Failed to update password.';
+    }
+  });
+
+  // Close modal on overlay click
+  document.getElementById('pw-modal').addEventListener('click', e => {
+    if (e.target === document.getElementById('pw-modal')) document.getElementById('pw-modal').style.display = 'none';
+  });
+</script>
+</body>
+</html>
