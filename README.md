@@ -1,4 +1,19 @@
-# CS3354-Group-4-Project
+# Everything Ranker
+
+A Java + SQLite application for creating, browsing, searching, and ranking lists. Built as a 6-person team project for CS 3354 (Software Engineering) at The University of Texas at Dallas.
+
+## Team
+- Allan Hoang
+- Charli-Renae
+- Arnav Jain
+- Lucas Herrera
+- Diego Hernandez
+- Kaliyah Jackson
+
+## My Contributions (Allan Hoang)
+- Edit List: implemented list editing in ListManager.java and DBManager.java using parameterized JDBC queries on SQLite, with author-only authorization so only a list's creator can modify it
+- Navigate List: implemented browsing and searching of public lists
+- Testing: wrote 33 test cases across 4 test suites (EditListTest, CreateAccountTest, LoginTest, LogoutTest)
 
 This repo contains two Java codebases:
 
