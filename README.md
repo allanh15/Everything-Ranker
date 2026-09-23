@@ -27,8 +27,6 @@ This repo contains two Java codebases:
 
 > Classpath separator: macOS/Linux uses `:` and Windows uses `;`.
 
-## Everything Ranker 
-
 ### Compile
 
 macOS/Linux:
