@@ -24,15 +24,20 @@ public class Profile {
         this.createdRankings = new ArrayList<>();
     }
 
-    public void displayCreatedLists() {
+    public String displayCreatedLists() {
+        String output = "";
         if(createdLists == null || createdLists.isEmpty()) {
-            System.out.println("  No lists created yet.");
+            output = "  No lists created yet.";
+            System.out.println(output);
         } else {
             for(EverythingList list : createdLists) {
+                output += "  - " + list.getTitle() + " (" + list.getItems().size() + " items)" +
+                        (list.getAccess() ? " [Public]" : " [Private]") + "\n";
                 System.out.println("  - " + list.getTitle() + " (" + list.getItems().size() + " items)" +
                         (list.getAccess() ? " [Public]" : " [Private]"));
             }
         }
+        return output;
     }
 
     public void displayCreatedRankings() {
@@ -77,17 +82,5 @@ public class Profile {
     @Override
     public String toString(){
         return "Profile{fullName='" + fullName + "', bio='" + bio + "'}";
-    }
-    public List<EverythingList> getCreatedLists() {
-        return createdLists;
-    }
-    public void setCreatedLists(List<EverythingList> createdLists) {
-        this.createdLists = createdLists;
-    }
-    public List<EverythingRankings> getCreatedRankings() {
-        return createdRankings;
-    }
-    public void setCreatedRankings(List<EverythingRankings> createdRankings) {
-        this.createdRankings = createdRankings;
     }
 }
